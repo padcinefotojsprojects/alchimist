@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Visualização interativa 360 graus do produto."
+    >
+
+    <title>Produto 360° — Visualização Interativa</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <header>
+        <h1>Produto 360°</h1>
+
+        <p>
+            Visualização interativa do produto.
+        </p>
+    </header>
+
+    <main>
+
+        <section
+            id="produto-360"
+            class="produto-spin"
+            aria-label="Visualização 360 graus do produto"
+        >
+
+            <div
+                id="spin-container"
+                class="img-container"
+            >
+
+                <img
+                    id="myImg"
+                    src="banner/novitah_001.jpg"
+                    alt="Produto LEGO — visualização 360 graus"
+                    draggable="false"
+                >
+
+            </div>
+
+            <p class="spin-hint">
+                Arraste horizontalmente para girar o produto.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            &copy; 2026 — Novitah 
+        </p>
+    </footer>
+
+    <script
+        src="script.js"
+        defer
+    ></script>
+
+</body>
+
+</html>
