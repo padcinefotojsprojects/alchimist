@@ -1,9 +1,10 @@
+```javascript
 document.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
     const CONFIG = {
-        totalFrames: 16,
-        imagePath: "banner/novitah_",
+        totalFrames: 13,
+        imagePath: "./imagens/perfume-",
         imageExtension: ".jpg",
         framePadding: 3,
         pixelsPerFrame: 12
@@ -64,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         currentFrame = frame;
+
         image.src = getFrameUrl(currentFrame);
     }
 
@@ -121,12 +123,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ) {
             if (accumulatedDistance < 0) {
                 changeFrame(1);
-
                 accumulatedDistance +=
                     CONFIG.pixelsPerFrame;
             } else {
                 changeFrame(-1);
-
                 accumulatedDistance -=
                     CONFIG.pixelsPerFrame;
             }
@@ -198,11 +198,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     image.addEventListener(
         "dragstart",
-        event => {
+        (event) => {
             event.preventDefault();
         }
     );
 
     showFrame(1);
+
     preloadImages();
 });
+```
