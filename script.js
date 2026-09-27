@@ -1,14 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
-    const CONFIG = {
-        totalFrames: 13,
-        imagePath: "banner/perfume-",
-        imageExtension: ".jpg",
-        framePadding: 3,
-        pixelsPerFrame: 12
-    };
-
     const container = document.getElementById("spin-container");
     const image = document.getElementById("myImg");
 
