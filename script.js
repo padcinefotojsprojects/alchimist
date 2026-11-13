@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
 
     const PHYSICS = {
-        maxVelocity: 22,       // Frames por segundo
-        friction: 4.2,         // Resistência ao movimento
-        stopThreshold: 0.06,   // Velocidade mínima
+        maxVelocity: 36,       // Frames por segundo
+        friction: 1.4,         // Resistência ao movimento
+        stopThreshold: 0.04,   // Velocidade mínima
         velocitySmoothing: 0.35,
         maxDeltaTime: 0.05
     };
@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let lastX = 0;
     let lastMoveTime = 0;
+    let velocitySamples = [];
 
     let velocity = 0;
     let animationId = null;
@@ -160,6 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         lastX = event.clientX;
         lastMoveTime = performance.now();
+        velocitySamples = [{ x: lastX, t: lastMoveTime }];
 
         frameAccumulator = 0;
         velocity = 0;
@@ -192,23 +194,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
         applyFrameMovement(frameMovement);
 
-        // Estimativa de velocidade angular
-        if (deltaTime > 0.004 && deltaTime < 0.15) {
-            const instantaneousVelocity =
-                frameMovement / deltaTime;
+        // Velocidade calculada pela janela recente de movimento
+        velocitySamples.push({ x: event.clientX, t: now });
 
-            const clampedVelocity = Math.max(
-                -PHYSICS.maxVelocity,
-                Math.min(
-                    PHYSICS.maxVelocity,
-                    instantaneousVelocity
-                )
-            );
+        // Mantém aproximadamente os últimos 120 ms
+        while (
+            velocitySamples.length > 2 &&
+            now - velocitySamples[0].t > 120
+        ) {
+            velocitySamples.shift();
+        }
 
-            // Suavização da velocidade para evitar oscilações
-            velocity =
-                velocity * (1 - PHYSICS.velocitySmoothing) +
-                clampedVelocity * PHYSICS.velocitySmoothing;
+        if (velocitySamples.length >= 2) {
+            const first = velocitySamples[0];
+            const last = velocitySamples[velocitySamples.length - 1];
+
+            const elapsed = (last.t - first.t) / 1000;
+
+            if (elapsed > 0.015) {
+                const measuredVelocity =
+                    -((last.x - first.x) / CONFIG.pixelsPerFrame) / elapsed;
+
+                velocity = Math.max(
+                    -PHYSICS.maxVelocity,
+                    Math.min(PHYSICS.maxVelocity, measuredVelocity)
+                );
+            }
         }
 
         event.preventDefault();
